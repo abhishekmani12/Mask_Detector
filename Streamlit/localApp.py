@@ -12,8 +12,8 @@ import matplotlib.pyplot as plt
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 Detectionmodel=mtcnn.MTCNN()
-#Basemodel=torch.load('model.pth', map_location=torch.device('cpu'))
-#Basemodel.eval()
+Basemodel=torch.load(r'C:\Users\Abhis\Desktop\detector\MaskDetStuff\model.pth', map_location=torch.device('cpu'))
+Basemodel.eval()
 
 
 classes = ['With_Mask', 'Without_Mask']
@@ -34,13 +34,13 @@ def pred(img, tsfm):
 
     imginput = Variable(tensor_img)
 
-    #prediction = Basemodel(imginput)
-    #index = prediction.data.numpy().argmax()
+    prediction = Basemodel(imginput)
+    index = prediction.data.numpy().argmax()
     #print(index)
-    output = 'With_Mask'
-    #classes[index]
+    
+    return classes[index]
 
-    return output
+
 
 
 st.title("Webcam Live Feed")
@@ -70,6 +70,8 @@ while run:
         cv2.putText(frame, label, (x,y-10),cv2.FONT_HERSHEY_SIMPLEX, 0.7, colour, 2)
         
         cv2.rectangle(frame,(x,y),(x+w, y+h), colour,4)
+
+        frame=cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
         FRAME_WINDOW.image(frame)
 else:
