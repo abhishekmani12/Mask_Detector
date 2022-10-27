@@ -12,8 +12,9 @@ import numpy as np
 from mss import mss
 
 
+st.title("Mask Detector")
+st.sidebar.title('Configure')
 
-st.title('Mask Detection')
 
 savePath="C:/Users/Abhis/Desktop/YOLO/Code/yolov5/runs/detect/exp"
 #inputPath="C:/Users/Abhis/Desktop/YOLO/Code/yolov5/InputImages"
@@ -22,12 +23,16 @@ spinnerlabel=''
 
 source = ("Image [Bbox Output]", "Video","Webcam", "Image [CSV Output]")
 source_index = st.sidebar.selectbox("Input", range(len(source)), format_func=lambda x: source[x])
-confLevel=st.sidebar.slider("Confidence Level Range - Optimized value is 0.4", 0.0, 1.0, 0.4)
+st.sidebar.write("####")
+
+confLevel=st.sidebar.slider("Confidence Slider - Optimized value is 0.4", 0.0, 1.0, 0.4)
+st.sidebar.write("####")
 
 if source_index == 0 :
 
         label='Submit'
         st.write('See detections in an Image')
+        st.sidebar.write("#####")
         uploaded_file = st.sidebar.file_uploader(
             "Upload Image", type=['jpg', 'jpeg', 'png'])
 
@@ -44,10 +49,11 @@ if source_index == 0 :
         else:
             is_valid = False
 
-if source_index == 1:
+elif source_index == 1:
 
         label='Submit'
         st.write('See detections in a Video')
+        st.sidebar.write("#####")
         uploaded_file = st.sidebar.file_uploader("Upload Video", type=['mp4'])
 
         if uploaded_file is not None:
@@ -62,16 +68,18 @@ if source_index == 1:
         else:
             is_valid = False
 
-if source_index == 2:
+elif source_index == 2:
 
         st.write('See live detections using your webcam')
+        st.sidebar.write("#####")
         is_valid=True
         sourceInterp='0'
         label='Ready' 
 
-if source_index == 3:
+elif source_index == 3:
 
         st.write("See detections listed in an interactive table")
+        st.sidebar.write("#####")
         label='Submit'
 
         uploaded_file = st.sidebar.file_uploader(
@@ -96,6 +104,7 @@ if source_index == 3:
 
 if is_valid:
         print('valid')
+        st.sidebar.text("  ")
         if st.sidebar.button(label):
 
             delpath=savePath + '/'
@@ -128,10 +137,10 @@ if is_valid:
                             IMAGE=Image.open(fullpath)
                             st.image(IMAGE)
                             
-
+                        st.sidebar.write("######")
                         st.success("Process Completed",  icon="✅")
 
-                if source_index == 1: #VIDEO
+                elif source_index == 1: #VIDEO
                     with st.spinner(text='Converting codec'):
                         
                         for vid in os.listdir(savePath):
@@ -153,12 +162,14 @@ if is_valid:
                             
                             st.video(video_bytes)
                             
+                            st.sidebar.write("######")
                             st.success("Process Completed",  icon="✅")
 
-                if source_index == 2: #WEBCAM
+                elif source_index == 2: #WEBCAM
 
                         st.warning('Webcam has stopped')
                         st.write("Playback of video feed from webcam")
+                        st.sidebar.write("######")
 
                     
 
@@ -181,10 +192,11 @@ if is_valid:
                             
                             st.video(video_bytes)
                             
+                            st.sidebar.write("######")
                             st.success("Process Completed",  icon="✅")
 
 
-                if source_index == 3:
+                elif source_index == 3:
                     with st.spinner("Inferencing"):
 
 
@@ -192,4 +204,5 @@ if is_valid:
                         result=res.pandas().xyxy[0]
                         df=pd.DataFrame(result)
                     st.dataframe(df)
+                    st.sidebar.write("######")
                     st.success("Process Completed",  icon="✅")
