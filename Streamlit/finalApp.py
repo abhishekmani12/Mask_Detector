@@ -204,5 +204,5 @@ if is_valid:
                         result=res.pandas().xyxy[0]
                         df=pd.DataFrame(result)
                     st.dataframe(df)
-                    st.sidebar.write("######")
+
                     st.success("Process Completed",  icon="✅")
