@@ -52,4 +52,4 @@ Output inference rate is around 30 FPS with 85% detection accuracy.
 
 ## Future Plans:
 
-Deployment with ONNX and AWS Lambda. Might include an intermediate class as well to the dataset.
+Deployment with ONNX and AWS Lambda. Might include an intermediate class to the dataset.
